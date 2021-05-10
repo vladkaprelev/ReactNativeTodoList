@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux';
 import {userReducer} from './userReducer';
-import {collectionReducer} from './collectionReducer';
+import {listsReducer} from './listsReducer';
 import {taskReducer} from './taskReducer';
 
 const reducer = combineReducers({
   user: userReducer,
-  lists: collectionReducer,
+  lists: listsReducer,
   tasks: taskReducer,
 });
 

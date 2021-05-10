@@ -13,7 +13,7 @@ import {login, signup} from '../Redux/thunks/userThunks';
 export const setObjectValue = async value => {
   try {
     const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem('key', jsonValue);
+    await AsyncStorage.setItem('access_token', jsonValue);
   } catch (e) {
     console.log(e);
   }
@@ -53,7 +53,10 @@ const NavigationService = props => {
       signIn: async data => {
         props.login(data);
       },
-      signOut: () => props.logout(),
+      signOut: async () => {
+        await AsyncStorage.removeItem('access_token');
+        props.logout();
+      },
       signUp: async data => {
         props.signup(data);
       },
@@ -67,10 +70,8 @@ const NavigationService = props => {
       <NavigationContainer>
         <Stack.Navigator headerMode="none">
           {props.state.user.isLoading ? (
-            // We haven't finished checking for the token yet
             <Stack.Screen name="Splash" component={SplashScreen} />
-          ) : props.state.user.access_token == null ? (
-            // No token found, user isn't signed in
+          ) : props.state.user.access_token === null ? (
             <Stack.Screen
               name="LogIn"
               component={LoginScreen}
@@ -81,7 +82,6 @@ const NavigationService = props => {
               }}
             />
           ) : (
-            // User is signed in
             <Stack.Screen name="Коллекции" component={CollectionScreen} />
           )}
         </Stack.Navigator>

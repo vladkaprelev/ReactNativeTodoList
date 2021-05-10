@@ -2,7 +2,7 @@ import * as type from '../actions/actionTypes';
 
 let initialState = {};
 
-export const collectionReducer = (state = initialState, action) => {
+export const listsReducer = (state = initialState, action) => {
   switch (action.type) {
     // case type.FETCH_COLLECTION:
     //   const lists = action.payload;

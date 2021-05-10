@@ -5,7 +5,8 @@ let initialState = {};
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case type.RESTORE_TOKEN: {
-      const {access_token} = action.token;
+      const access_token = action.token;
+      console.log('restore token', access_token);
       return {
         ...state,
         access_token,
@@ -29,6 +30,6 @@ export const userReducer = (state = initialState, action) => {
     case type.SIGNUP:
       return action.payload;
     default:
-      return {...state, isLoading: false, isSignout: false, access_token: null};
+      return {...state, isLoading: true, isSignout: false, access_token: null};
   }
 };
