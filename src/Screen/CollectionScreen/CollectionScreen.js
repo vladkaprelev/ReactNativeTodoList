@@ -59,8 +59,7 @@ const CollectionScreen = props => {
         ) : (
           <></>
         )}
-        <Tasklist component={ListItem} list={props.lists} />
-        {/*<Button title="Get" onPress={handleButton} />*/}
+        <Tasklist component={ListItem} list={props.lists} type="list" />
       </View>
     </SafeAreaView>
   );
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   error: {
-    color: 'red',
+    color: '#C1526C',
   },
 });
 

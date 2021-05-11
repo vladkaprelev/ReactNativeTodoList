@@ -5,3 +5,7 @@ export const ADD_LIST = 'ADD_LIST';
 export const DELETE_LIST = 'DELETE_LIST';
 export const GET_LIST = 'GET_LIST';
 export const UPDATE_LIST = 'UPDATE_LIST';
+export const ADD_TASK = 'ADD_TASK';
+export const DELETE_TASK = 'DELETE_TASK';
+export const GET_TASK = 'GET_TASK';
+export const UPDATE_TASK = 'UPDATE_TASK';

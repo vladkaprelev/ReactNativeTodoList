@@ -2,9 +2,11 @@ import React, {useState} from 'react';
 import {FlatList} from 'react-native';
 
 const Tasklist = props => {
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId] = useState(null);
   const renderItem = ({item}) => {
-    return <props.component item={item} onPress={props.onPress} />;
+    return (
+      <props.component item={item} type={props.type} onPress={props.onPress} />
+    );
   };
   return (
     <FlatList

@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {connect, useSelector} from 'react-redux';
 import {deleteList, updateList} from '../../Redux/thunks/listsThunks';
 import {useNavigation} from '@react-navigation/core';
+import {deleteTask, updateTask} from '../../Redux/thunks/tasksThunks';
 
 const ListItem = props => {
   const navigation = useNavigation();
@@ -13,23 +14,42 @@ const ListItem = props => {
   const token = user.access_token;
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const textDecorationLine = toggleCheckBox ? 'line-through' : 'none';
-  const {count_tasks, id, is_closed, is_completed, name} = props.item;
+  const item = props.item;
 
   useEffect(() => {
     setToggleCheckBox(props.item.is_completed);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  let handleDelete;
+  let handleCheckBox;
+  let handleNavigate;
+  switch (props.type) {
+    case 'list':
+      handleDelete = () => {
+        props.deleteList(item.id, token);
+      };
+      handleCheckBox = newValue => {
+        props.updateList({...item, is_completed: newValue}, token);
+        setToggleCheckBox(newValue);
+      };
+      handleNavigate = () => {
+        navigation.navigate('Список задач', {item});
+      };
+      break;
 
-  const handleDelete = () => {
-    props.deleteList(props.item.id, token);
-  };
-  const handleCheckBox = newValue => {
-    props.updateList(
-      {count_tasks, id, is_closed, is_completed: newValue, name},
-      token,
-    );
-    setToggleCheckBox(newValue);
-  };
+    case 'task':
+      handleDelete = () => {
+        props.deleteTask(item.id, token);
+      };
+      handleCheckBox = newValue => {
+        props.updateTask({...item, is_completed: newValue}, token);
+        setToggleCheckBox(newValue);
+      };
+      handleNavigate = () => {
+        navigation.navigate('Задача', {item});
+      };
+      break;
+  }
 
   return (
     <View style={styles.item}>
@@ -40,17 +60,7 @@ const ListItem = props => {
           onValueChange={handleCheckBox}
           tintColors={{true: '#4C728F', false: '#3d3d3d'}}
         />
-        <TouchableOpacity
-          style={styles.titleBox}
-          onPress={() =>
-            navigation.navigate('Список задач', {
-              count_tasks,
-              id,
-              is_closed,
-              is_completed,
-              name,
-            })
-          }>
+        <TouchableOpacity style={styles.titleBox} onPress={handleNavigate}>
           <Text
             style={[styles.title, {textDecorationLine: textDecorationLine}]}>
             {props.item.name}
@@ -99,6 +109,9 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({deleteList: deleteList, updateList}, dispatch);
+  bindActionCreators(
+    {deleteList, updateList, deleteTask, updateTask},
+    dispatch,
+  );
 
 export default connect(null, mapDispatchToProps)(ListItem);

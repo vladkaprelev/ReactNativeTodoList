@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   error: {
-    color: 'red',
+    color: '#C1526C',
   },
   input: {
     backgroundColor: '#fff',

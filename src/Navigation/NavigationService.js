@@ -1,12 +1,13 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import LoginScreen from '../Screen/LoginScreen/LoginScreen';
 import SignUpScreen from '../Screen/SingUpScreen/SignUpScreen';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import CollectionScreen from '../Screen/CollectionScreen/CollectionScreen';
-import {autoLogin} from '../Redux/thunks/userThunks';
 import ListItemScreen from '../Screen/ListItemScreen/ListItemScreen';
+import addTaskScreen from '../Screen/addTaskScreen/addTaskScreen';
+import TaskScreen from '../Screen/TaskScreen/TaskScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,16 +21,18 @@ const AuthStack = () => {
 };
 
 const HomeStack = () => {
-  const user = useSelector(state => state.user);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(autoLogin(user.access_token));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const user = useSelector(state => state.user);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(autoLogin(user.access_token));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   return (
     <Stack.Navigator>
       <Stack.Screen name="Коллекции" component={CollectionScreen} />
       <Stack.Screen name="Список задач" component={ListItemScreen} />
+      <Stack.Screen name="Добавить задачу" component={addTaskScreen} />
+      <Stack.Screen name="Задача" component={TaskScreen} />
     </Stack.Navigator>
   );
 };
