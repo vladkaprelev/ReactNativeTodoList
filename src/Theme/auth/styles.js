@@ -3,11 +3,10 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   card: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     justifyContent: 'space-between',
   },
   title: {
@@ -22,12 +21,7 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     marginBottom: 20,
   },
-  error: {
-    color: 'red',
-  },
-  input: {
-    borderWidth: 0,
-  },
+
   text: {
     fontSize: 16,
     color: '#477BDE',

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import LoginScreen from '../Screen/LoginScreen/LoginScreen';
 import SignUpScreen from '../Screen/SingUpScreen/SignUpScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import CollectionScreen from '../Screen/CollectionScreen/CollectionScreen';
+import {autoLogin} from '../Redux/thunks/userThunks';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,12 @@ const AuthStack = () => {
 };
 
 const HomeStack = () => {
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(autoLogin(user.access_token));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Stack.Navigator>
       <Stack.Screen name="Коллекции" component={CollectionScreen} />
@@ -27,10 +34,9 @@ const HomeStack = () => {
 
 const NavigationService = () => {
   const user = useSelector(state => state.user);
-  const dispatch = useDispatch();
   return (
     <NavigationContainer>
-      {user.access_token === null ? <AuthStack /> : <HomeStack />}
+      {user.isLogin ? <HomeStack /> : <AuthStack />}
     </NavigationContainer>
   );
 };

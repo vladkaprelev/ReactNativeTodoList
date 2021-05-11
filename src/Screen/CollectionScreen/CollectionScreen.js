@@ -10,11 +10,14 @@ import {
 import Pickers from '../../Components/pickers/Pickers';
 import Tasklist from '../../Components/taskList/TaskList';
 import ListItem from '../../Components/listItem/ListItem';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import {addList} from '../../Redux/action/lists.action';
 import {bindActionCreators} from 'redux';
+import {Button} from 'react-native-elements';
+import {getUser} from '../../Redux/thunks/userThunks';
 
 const CollectionScreen = props => {
+  const user = useSelector(state => state.user);
   const [value, setValue] = useState('');
   const [message, setMessage] = useState(false);
   const handleAddList = () => {
@@ -27,9 +30,13 @@ const CollectionScreen = props => {
       setMessage(true);
     }
   };
+  const handleButton = () => {
+    props.getUser(user.access_token);
+  };
   return (
     <SafeAreaView>
       <Pickers />
+      <Text>{user.access_token}</Text>
       <View style={styles.container}>
         <View style={styles.inputBox}>
           <TextInput
@@ -48,6 +55,7 @@ const CollectionScreen = props => {
           <></>
         )}
         <Tasklist component={ListItem} list={props.lists} />
+        <Button title="Get" onPress={handleButton} />
       </View>
     </SafeAreaView>
   );
@@ -96,6 +104,7 @@ const mapStateToProps = state => {
   return {lists};
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({addList}, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({addList, getUser}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionScreen);
