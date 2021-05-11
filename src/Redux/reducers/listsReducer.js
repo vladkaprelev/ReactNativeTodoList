@@ -19,6 +19,16 @@ export const listsReducer = (state = initialState, action) => {
       console.log(state);
       return {...state, lists: state.lists.filter(item => item.id !== id)};
     }
+    case t.UPDATE_LIST: {
+      const list = action.payload;
+      state.lists.forEach(item => {
+        if (item.id === list.id) {
+          item = list;
+          console.log(item);
+        }
+      });
+      return {...state};
+    }
     default:
       return state;
   }

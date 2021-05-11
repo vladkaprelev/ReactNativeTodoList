@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import CheckBox from '@react-native-community/checkbox';
 import {bindActionCreators} from 'redux';
 import {connect, useSelector} from 'react-redux';
-import {deleteList} from '../../Redux/thunks/listsThunks';
+import {deleteList, updateList} from '../../Redux/thunks/listsThunks';
 
 const ListItem = props => {
   const user = useSelector(state => state.user);
@@ -12,11 +12,24 @@ const ListItem = props => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const textDecorationLine = toggleCheckBox ? 'line-through' : 'none';
 
+  useEffect(() => {
+    setToggleCheckBox(props.item.is_completed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleDelete = () => {
     console.log(props.item);
     props.deleteList(props.item.id, token);
   };
-  const handlePress = () => {};
+  const handleCheckBox = newValue => {
+    const {count_tasks, id, is_closed, is_completed, name} = props.item;
+    console.log(props.item);
+    props.updateList(
+      {count_tasks, id, is_closed, is_completed: newValue, name},
+      token,
+    );
+    setToggleCheckBox(newValue);
+  };
 
   return (
     <View style={styles.item}>
@@ -24,10 +37,10 @@ const ListItem = props => {
         <CheckBox
           disabled={false}
           value={toggleCheckBox}
-          onValueChange={newValue => setToggleCheckBox(newValue)}
+          onValueChange={handleCheckBox}
           tintColors={{true: '#4C728F', false: '#3d3d3d'}}
         />
-        <TouchableOpacity onPress={handlePress} style={styles.titleBox}>
+        <TouchableOpacity style={styles.titleBox}>
           <Text
             style={[styles.title, {textDecorationLine: textDecorationLine}]}>
             {props.item.name}
@@ -76,6 +89,6 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({deleteList: deleteList}, dispatch);
+  bindActionCreators({deleteList: deleteList, updateList}, dispatch);
 
 export default connect(null, mapDispatchToProps)(ListItem);

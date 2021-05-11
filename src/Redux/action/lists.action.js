@@ -14,3 +14,8 @@ export const getListAC = lists => ({
   type: t.GET_LIST,
   payload: lists,
 });
+
+export const updateListAC = list => ({
+  type: t.UPDATE_LIST,
+  payload: list,
+});

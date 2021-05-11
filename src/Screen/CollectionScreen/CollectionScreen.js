@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   TextInput,
@@ -12,7 +12,6 @@ import Tasklist from '../../Components/taskList/TaskList';
 import ListItem from '../../Components/listItem/ListItem';
 import {connect, useSelector} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Button} from 'react-native-elements';
 import {addList, fetchLists} from '../../Redux/thunks/listsThunks';
 
 const CollectionScreen = props => {
@@ -20,6 +19,10 @@ const CollectionScreen = props => {
   const token = user.access_token;
   const [value, setValue] = useState('');
   const [message, setMessage] = useState(false);
+  useEffect(() => {
+    props.fetchLists(token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const handleAddList = () => {
     const attributes = {
       name: value,
@@ -31,17 +34,17 @@ const CollectionScreen = props => {
       props.addLists(attributes, token);
       setValue('');
       setMessage(false);
+      props.fetchLists(token);
     } else {
       setMessage(true);
     }
   };
-  const handleButton = () => {
-    props.fetchLists(token);
-  };
+  // const handleButton = () => {
+  //   props.fetchLists(token);
+  // };
   return (
     <SafeAreaView>
       <Pickers />
-      <Text>{user.access_token}</Text>
       <View style={styles.container}>
         <View style={styles.inputBox}>
           <TextInput
@@ -60,7 +63,7 @@ const CollectionScreen = props => {
           <></>
         )}
         <Tasklist component={ListItem} list={props.lists} />
-        <Button title="Get" onPress={handleButton} />
+        {/*<Button title="Get" onPress={handleButton} />*/}
       </View>
     </SafeAreaView>
   );
