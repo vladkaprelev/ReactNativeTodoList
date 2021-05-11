@@ -1,29 +1,17 @@
-import * as type from '../actions/actionTypes';
+import * as t from '../action/types';
 
-let initialState = {};
+const initialState = [];
 
 export const listsReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case type.FETCH_COLLECTION:
-    //   const lists = action.payload;
-    //   return {
-    //     ...state,
-    //     lists,
-    //   };
-    // case type.DELETE_COLLECTION: {
-    //   const {id} = action.payload;
-    //   return {
-    //     ...state,
-    //     lists: state.lists.filter(todo => todo.id !== id),
-    //   };
-    // }
-    // case type.ITEM_COLLECTION: {
-    //   const item = action.payload;
-    //   return {
-    //     ...state,
-    //     item,
-    //   };
-    // }
+    case t.ADD_LIST: {
+      const data = action.payload;
+      return [...state, {...data, id: state.length + 1}];
+    }
+    case t.DELETE_LIST: {
+      const id = action.payload;
+      return state.filter(item => item.id !== id);
+    }
     default:
       return state;
   }

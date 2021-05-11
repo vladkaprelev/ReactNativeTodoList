@@ -1,21 +1,20 @@
 import React, {useState} from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
 import {Input, Button} from 'react-native-elements';
+
 import {styles} from '../../Theme/auth/styles';
-import {useDispatch} from 'react-redux';
-import {fetchUser} from '../../Redux/thunks/userThunks';
+import {SafeAreaView, Text, View} from 'react-native';
 
-const LoginScreen = props => {
+const SignUpScreen = props => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
 
-  const handleSignIn = () => {
+  const handleSignUp = () => {
     const data = {
+      name: name,
       email: email,
       password: password,
     };
-    dispatch(fetchUser(data));
   };
 
   return (
@@ -23,7 +22,14 @@ const LoginScreen = props => {
       <View style={styles.card}>
         <View>
           <Text style={styles.title}>To do List</Text>
-          <Text style={styles.subtitle}>Войти</Text>
+          <Text style={styles.subtitle}>Регистрация</Text>
+          <Input
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+            keyboardType="default"
+            autoCompleteType="name"
+          />
           <Input
             placeholder="Email"
             value={email}
@@ -41,19 +47,19 @@ const LoginScreen = props => {
           />
           <Text
             style={styles.text}
-            onPress={() => props.navigation.navigate('Sign Up Screen')}>
-            No Acount? Sign Up
+            onPress={() => props.navigation.navigate('Login Screen')}>
+            Already Signed Up? Sign In
           </Text>
         </View>
         <Button
           titleStyle={styles.buttonText}
           buttonStyle={styles.button}
-          title="Sign in"
-          onPress={() => handleSignIn()}
+          title="SIGN UP"
+          onPress={() => handleSignUp()}
         />
       </View>
     </SafeAreaView>
   );
 };
 
-export default LoginScreen;
+export default SignUpScreen;

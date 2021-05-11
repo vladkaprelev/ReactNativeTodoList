@@ -1,9 +1,0 @@
-export const FETCH_COLLECTION = 'FETCH_COLLECTION';
-export const DELETE_COLLECTION = 'DELETE_COLLECTION';
-export const ITEM_COLLECTION = 'ITEM_COLLECTION';
-export const FETCH_TASK = 'FETCH_TASK';
-export const DELETE_TASK = 'DELETE_TASK';
-export const LOGIN = 'LOGIN';
-export const SIGNUP = 'SIGNUP';
-export const LOGOUT = 'LOGOUT';
-export const RESTORE_TOKEN = 'RESTORE_TOKEN';
