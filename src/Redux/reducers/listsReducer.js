@@ -1,16 +1,23 @@
 import * as t from '../action/types';
 
-const initialState = [];
+const initialState = {lists: []};
 
 export const listsReducer = (state = initialState, action) => {
   switch (action.type) {
     case t.ADD_LIST: {
-      const data = action.payload;
-      return [...state, {...data, id: state.length + 1}];
+      const list = action.payload;
+      state.lists.push({...list});
+      return {...state};
+    }
+    case t.GET_LIST: {
+      const attributes = action.payload;
+      return {...state, lists: attributes};
     }
     case t.DELETE_LIST: {
       const id = action.payload;
-      return state.filter(item => item.id !== id);
+      state.lists.filter(item => item.id !== id);
+      console.log(state);
+      return {...state, lists: state.lists.filter(item => item.id !== id)};
     }
     default:
       return state;

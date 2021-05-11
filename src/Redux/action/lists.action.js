@@ -1,11 +1,16 @@
 import * as t from './types';
 
-export const addList = data => ({
+export const addListAC = list => ({
   type: t.ADD_LIST,
-  payload: data,
+  payload: list,
 });
 
-export const deleteList = id => ({
+export const deleteListAC = id => ({
   type: t.DELETE_LIST,
   payload: id,
+});
+
+export const getListAC = lists => ({
+  type: t.GET_LIST,
+  payload: lists,
 });

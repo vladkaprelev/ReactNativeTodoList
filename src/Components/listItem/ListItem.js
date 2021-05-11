@@ -3,16 +3,18 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import CheckBox from '@react-native-community/checkbox';
 import {bindActionCreators} from 'redux';
-import {deleteList} from '../../Redux/action/lists.action';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
+import {deleteList} from '../../Redux/thunks/listsThunks';
 
 const ListItem = props => {
+  const user = useSelector(state => state.user);
+  const token = user.access_token;
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const textDecorationLine = toggleCheckBox ? 'line-through' : 'none';
 
   const handleDelete = () => {
     console.log(props.item);
-    props.deleteList(props.item.id);
+    props.deleteList(props.item.id, token);
   };
   const handlePress = () => {};
 
@@ -74,6 +76,6 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({deleteList}, dispatch);
+  bindActionCreators({deleteList: deleteList}, dispatch);
 
 export default connect(null, mapDispatchToProps)(ListItem);

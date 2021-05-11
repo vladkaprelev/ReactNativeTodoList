@@ -11,19 +11,24 @@ import Pickers from '../../Components/pickers/Pickers';
 import Tasklist from '../../Components/taskList/TaskList';
 import ListItem from '../../Components/listItem/ListItem';
 import {connect, useSelector} from 'react-redux';
-import {addList} from '../../Redux/action/lists.action';
 import {bindActionCreators} from 'redux';
 import {Button} from 'react-native-elements';
-import {getUser} from '../../Redux/thunks/userThunks';
+import {addList, fetchLists} from '../../Redux/thunks/listsThunks';
 
 const CollectionScreen = props => {
   const user = useSelector(state => state.user);
+  const token = user.access_token;
   const [value, setValue] = useState('');
   const [message, setMessage] = useState(false);
   const handleAddList = () => {
-    const data = {name: value, count: 0, is_closed: false, is_complete: false};
+    const attributes = {
+      name: value,
+      count_tasks: 0,
+      is_closed: false,
+      is_completed: false,
+    };
     if (value) {
-      props.addList(data);
+      props.addLists(attributes, token);
       setValue('');
       setMessage(false);
     } else {
@@ -31,7 +36,7 @@ const CollectionScreen = props => {
     }
   };
   const handleButton = () => {
-    props.getUser(user.access_token);
+    props.fetchLists(token);
   };
   return (
     <SafeAreaView>
@@ -100,11 +105,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  const {lists} = state;
+  const {lists} = state.lists;
   return {lists};
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({addList, getUser}, dispatch);
+  bindActionCreators({addLists: addList, fetchLists}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionScreen);
