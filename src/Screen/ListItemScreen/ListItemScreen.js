@@ -31,7 +31,6 @@ const ListItemScreen = props => {
 
   const handleSafe = () => {
     if (value.length) {
-      console.log(taskCount.length);
       props.updateList(
         {...item, count_tasks: taskCount.length, name: value},
         token,

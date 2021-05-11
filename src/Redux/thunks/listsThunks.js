@@ -17,7 +17,6 @@ export const fetchLists = (access_token, is_completed) => async dispatch => {
   })
     .then(res => res.json())
     .then(json => {
-      console.log(json);
       if (is_completed !== undefined) {
         const lists = json.data.items.filter(
           item => item.is_completed === is_completed,
@@ -28,12 +27,10 @@ export const fetchLists = (access_token, is_completed) => async dispatch => {
         dispatch(getListAC(lists));
       }
     })
-    .catch(e => console.log('fetchLists', e));
+    .catch(e => console.error('fetchLists', e));
 };
 
 export const addList = (attributes, access_token) => async dispatch => {
-  console.log(attributes);
-  console.log(access_token);
   await fetch(`${baseURL}`, {
     method: 'POST',
     headers: {
@@ -44,11 +41,10 @@ export const addList = (attributes, access_token) => async dispatch => {
   })
     .then(res => res.json())
     .then(json => {
-      console.log(json);
       const list = json.data.attributes;
       dispatch(addListAC(list));
     })
-    .catch(e => console.log('add lists', e));
+    .catch(e => console.error('add lists', e));
 };
 
 export const deleteList = (id, access_token) => async dispatch => {
@@ -61,15 +57,11 @@ export const deleteList = (id, access_token) => async dispatch => {
     body: JSON.stringify({id}),
   })
     .then(res => res.json())
-    .then(json => {
-      console.log(json);
-      dispatch(deleteListAC(id));
-    })
-    .catch(e => console.log('delete lists', e));
+    .then(() => dispatch(deleteListAC(id)))
+    .catch(e => console.error('delete lists', e));
 };
 
 export const updateList = (list, access_token) => dispatch => {
-  console.log(list);
   fetch(`${baseURL}/${list.id}`, {
     method: 'PUT',
     headers: {
@@ -80,8 +72,7 @@ export const updateList = (list, access_token) => dispatch => {
   })
     .then(res => res.json())
     .then(json => {
-      console.log(json.data.attributes);
       dispatch(updateListAC(json.data.attributes));
     })
-    .catch(e => console.log('delete lists', e));
+    .catch(e => console.error('delete lists', e));
 };

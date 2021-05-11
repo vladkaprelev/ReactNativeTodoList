@@ -26,7 +26,7 @@ const AddTaskScreen = props => {
       props.addTask(attributes, token);
       setTitle('');
       setDescription('');
-      props.fetchTasks({token, list_id});
+      props.fetchTasks(token, list_id);
       props.navigation.dispatch(CommonActions.goBack());
     }
   };

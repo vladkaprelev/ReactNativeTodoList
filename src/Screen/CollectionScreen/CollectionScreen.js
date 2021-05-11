@@ -20,7 +20,6 @@ const CollectionScreen = props => {
   const [value, setValue] = useState('');
   const [message, setMessage] = useState(false);
   const [selected, setSelected] = useState('inWork');
-  console.log(selected);
   useEffect(() => {
     let is_completed = false;
     switch (selected) {

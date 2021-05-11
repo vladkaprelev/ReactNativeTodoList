@@ -15,16 +15,13 @@ export const tasksReducer = (state = initialState, action) => {
     }
     case t.DELETE_TASK: {
       const id = action.payload;
-      state.tasks.filter(item => item.id !== id);
-      console.log(state);
       return {...state, tasks: state.tasks.filter(item => item.id !== id)};
     }
     case t.UPDATE_TASK: {
       const task = action.payload;
       state.tasks.forEach(item => {
         if (item.id === task.id) {
-          item = task;
-          console.log(item);
+          return (item = task);
         }
       });
       return {...state};
