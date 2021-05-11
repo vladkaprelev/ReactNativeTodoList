@@ -19,10 +19,25 @@ const CollectionScreen = props => {
   const token = user.access_token;
   const [value, setValue] = useState('');
   const [message, setMessage] = useState(false);
+  const [selected, setSelected] = useState('inWork');
+  console.log(selected);
   useEffect(() => {
-    props.fetchLists(token);
+    let is_completed = false;
+    switch (selected) {
+      case 'inWork':
+        is_completed = false;
+        props.fetchLists(token, is_completed);
+        break;
+      case 'complete':
+        is_completed = true;
+        props.fetchLists(token, is_completed);
+        break;
+      case 'collections':
+        props.fetchLists(token);
+        break;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selected]);
   const handleAddList = () => {
     const attributes = {
       name: value,
@@ -41,7 +56,7 @@ const CollectionScreen = props => {
   };
   return (
     <SafeAreaView>
-      <Pickers />
+      <Pickers selected={selected} setSelected={setSelected} />
       <View style={styles.container}>
         <View style={styles.inputBox}>
           <TextInput

@@ -7,7 +7,7 @@ import {
 
 const baseURL = 'https://academy2.smw.tom.ru/tararin-ivan/todo-list/lists';
 
-export const fetchLists = access_token => async dispatch => {
+export const fetchLists = (access_token, is_completed) => async dispatch => {
   await fetch(`${baseURL}`, {
     method: 'GET',
     headers: {
@@ -18,8 +18,15 @@ export const fetchLists = access_token => async dispatch => {
     .then(res => res.json())
     .then(json => {
       console.log(json);
-      const lists = json.data.items;
-      dispatch(getListAC(lists));
+      if (is_completed !== undefined) {
+        const lists = json.data.items.filter(
+          item => item.is_completed === is_completed,
+        );
+        dispatch(getListAC(lists));
+      } else {
+        const lists = json.data.items;
+        dispatch(getListAC(lists));
+      }
     })
     .catch(e => console.log('fetchLists', e));
 };

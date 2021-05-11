@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Picker} from '@react-native-picker/picker';
 
-const Pickers = () => {
-  const [selected, setSelected] = useState();
+const Pickers = props => {
+  const handlePicker = itemValue => {
+    props.setSelected(itemValue);
+  };
+
   return (
-    <Picker
-      selectedValue={selected}
-      onValueChange={itemValue => setSelected(itemValue)}>
+    <Picker selectedValue={props.selected} onValueChange={handlePicker}>
       <Picker.Item label="Коллекции" value="collections" />
       <Picker.Item label="В работе" value="inWork" />
       <Picker.Item label="Выполнено" value="complete" />
