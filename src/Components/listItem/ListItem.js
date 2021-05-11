@@ -5,12 +5,15 @@ import CheckBox from '@react-native-community/checkbox';
 import {bindActionCreators} from 'redux';
 import {connect, useSelector} from 'react-redux';
 import {deleteList, updateList} from '../../Redux/thunks/listsThunks';
+import {useNavigation} from '@react-navigation/core';
 
 const ListItem = props => {
+  const navigation = useNavigation();
   const user = useSelector(state => state.user);
   const token = user.access_token;
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const textDecorationLine = toggleCheckBox ? 'line-through' : 'none';
+  const {count_tasks, id, is_closed, is_completed, name} = props.item;
 
   useEffect(() => {
     setToggleCheckBox(props.item.is_completed);
@@ -18,12 +21,9 @@ const ListItem = props => {
   }, []);
 
   const handleDelete = () => {
-    console.log(props.item);
     props.deleteList(props.item.id, token);
   };
   const handleCheckBox = newValue => {
-    const {count_tasks, id, is_closed, is_completed, name} = props.item;
-    console.log(props.item);
     props.updateList(
       {count_tasks, id, is_closed, is_completed: newValue, name},
       token,
@@ -40,7 +40,17 @@ const ListItem = props => {
           onValueChange={handleCheckBox}
           tintColors={{true: '#4C728F', false: '#3d3d3d'}}
         />
-        <TouchableOpacity style={styles.titleBox}>
+        <TouchableOpacity
+          style={styles.titleBox}
+          onPress={() =>
+            navigation.navigate('Список задач', {
+              count_tasks,
+              id,
+              is_closed,
+              is_completed,
+              name,
+            })
+          }>
           <Text
             style={[styles.title, {textDecorationLine: textDecorationLine}]}>
             {props.item.name}

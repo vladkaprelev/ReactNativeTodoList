@@ -6,6 +6,7 @@ import SignUpScreen from '../Screen/SingUpScreen/SignUpScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import CollectionScreen from '../Screen/CollectionScreen/CollectionScreen';
 import {autoLogin} from '../Redux/thunks/userThunks';
+import ListItemScreen from '../Screen/ListItemScreen/ListItemScreen';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ const HomeStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Коллекции" component={CollectionScreen} />
+      <Stack.Screen name="Список задач" component={ListItemScreen} />
     </Stack.Navigator>
   );
 };

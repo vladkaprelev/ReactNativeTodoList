@@ -39,9 +39,6 @@ const CollectionScreen = props => {
       setMessage(true);
     }
   };
-  // const handleButton = () => {
-  //   props.fetchLists(token);
-  // };
   return (
     <SafeAreaView>
       <Pickers />
@@ -49,7 +46,7 @@ const CollectionScreen = props => {
         <View style={styles.inputBox}>
           <TextInput
             style={styles.input}
-            onChangeText={value => setValue(value)}
+            onChangeText={setValue}
             value={value}
             placeholder="Введите название списка задач"
           />
