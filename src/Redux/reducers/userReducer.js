@@ -15,6 +15,12 @@ export const userReducer = (state = initialState, action) => {
         access_token: token,
       };
     }
+    case t.LOG_OUT: {
+      return {
+        isLogin: false,
+        access_token: null,
+      };
+    }
     case t.SET_TOKEN:
       const access_token = action.payload;
       return {

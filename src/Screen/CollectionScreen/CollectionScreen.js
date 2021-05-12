@@ -13,6 +13,8 @@ import ListItem from '../../Components/listItem/ListItem';
 import {connect, useSelector} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addList, fetchLists} from '../../Redux/thunks/listsThunks';
+import Button from '../../Components/button/Button';
+import {logUserOut} from '../../Redux/action/user.action';
 
 const CollectionScreen = props => {
   const user = useSelector(state => state.user);
@@ -45,7 +47,7 @@ const CollectionScreen = props => {
       is_completed: false,
     };
     if (value) {
-      props.addLists(attributes, token);
+      props.addList(attributes, token);
       setValue('');
       setMessage(false);
       props.fetchLists(token);
@@ -53,35 +55,51 @@ const CollectionScreen = props => {
       setMessage(true);
     }
   };
+  const handleLogOut = () => props.logUserOut();
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.main}>
       <Pickers selected={selected} setSelected={setSelected} />
       <View style={styles.container}>
-        <View style={styles.inputBox}>
-          <TextInput
-            style={styles.input}
-            onChangeText={setValue}
-            value={value}
-            placeholder="Введите название списка задач"
-          />
-          <TouchableOpacity style={styles.button} onPress={handleAddList}>
-            <Text style={styles.buttonText}>Добавить</Text>
-          </TouchableOpacity>
+        <View>
+          <View style={styles.inputBox}>
+            <TextInput
+              style={styles.input}
+              onChangeText={setValue}
+              value={value}
+              placeholder="Введите название списка задач"
+            />
+            <TouchableOpacity style={styles.button} onPress={handleAddList}>
+              <Text style={styles.buttonText}>Добавить</Text>
+            </TouchableOpacity>
+          </View>
+          {message ? (
+            <Text style={styles.error}>Введите название списка</Text>
+          ) : (
+            <></>
+          )}
+          <Tasklist component={ListItem} list={props.lists} type="list" />
         </View>
-        {message ? (
-          <Text style={styles.error}>Введите название списка</Text>
-        ) : (
-          <></>
-        )}
-        <Tasklist component={ListItem} list={props.lists} type="list" />
+        <View style={styles.buttonBox}>
+          <Button
+            title="Выход"
+            color="#ffffff"
+            backgroundColor="#4C728F"
+            onPress={handleLogOut}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+  },
   container: {
+    flex: 1,
     marginHorizontal: 15,
+    justifyContent: 'space-between',
   },
   inputBox: {
     flexDirection: 'row',
@@ -112,6 +130,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
   },
+  buttonBox: {
+    alignSelf: 'center',
+    marginBottom: 35,
+  },
   error: {
     color: '#C1526C',
   },
@@ -123,6 +145,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({addLists: addList, fetchLists}, dispatch);
+  bindActionCreators({addList, fetchLists, logUserOut}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionScreen);

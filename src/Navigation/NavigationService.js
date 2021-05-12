@@ -21,12 +21,6 @@ const AuthStack = () => {
 };
 
 const HomeStack = () => {
-  // const user = useSelector(state => state.user);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(autoLogin(user.access_token));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
   return (
     <Stack.Navigator>
       <Stack.Screen name="Коллекции" component={CollectionScreen} />
