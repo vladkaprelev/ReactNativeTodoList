@@ -66,6 +66,7 @@ export const updateTask = (task, access_token) => dispatch => {
     .then(res => res.json())
     .then(json => {
       dispatch(updateTaskAC(json.data.attributes));
+      dispatch(fetchTasks(access_token, task.list_id));
     })
     .catch(e => console.error('delete tasks', e));
 };

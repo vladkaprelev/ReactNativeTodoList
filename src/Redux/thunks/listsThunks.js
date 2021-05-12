@@ -73,6 +73,7 @@ export const updateList = (list, access_token) => dispatch => {
     .then(res => res.json())
     .then(json => {
       dispatch(updateListAC(json.data.attributes));
+      dispatch(fetchLists(access_token));
     })
     .catch(e => console.error('delete lists', e));
 };

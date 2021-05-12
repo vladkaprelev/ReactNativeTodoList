@@ -5,22 +5,25 @@ import Button from '../../Components/button/Button';
 import {styles} from '../../Theme/task/styles';
 import {CommonActions} from '@react-navigation/native';
 import {bindActionCreators} from 'redux';
-import {fetchTasks, updateTask} from '../../Redux/thunks/tasksThunks';
+import {updateTask} from '../../Redux/thunks/tasksThunks';
+import UrgencyPicker from '../../Components/urgencyPicker/UrgencyPicker';
 
 const TaskScreen = props => {
   const user = useSelector(state => state.user);
   const token = user.access_token;
   const {item} = props.route.params;
-  const list_id = item.list_id;
   const [title, setTitle] = useState(item.name);
   const [description, setDescription] = useState(item.description);
+  const [selected, setSelected] = useState(item.urgency);
 
   const handleSafeTask = () => {
     if (title && description) {
-      props.updateTask({...item, name: title, description}, token);
+      props.updateTask(
+        {...item, name: title, description, urgency: selected},
+        token,
+      );
       setTitle('');
       setDescription('');
-      props.fetchTasks({token, list_id});
       props.navigation.dispatch(CommonActions.goBack());
     }
   };
@@ -45,6 +48,7 @@ const TaskScreen = props => {
             multiline
             textAlignVertical="top"
           />
+          <UrgencyPicker selected={selected} setSelected={setSelected} />
         </View>
         <View style={styles.button}>
           <Button
@@ -60,6 +64,6 @@ const TaskScreen = props => {
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({updateTask, fetchTasks}, dispatch);
+  bindActionCreators({updateTask}, dispatch);
 
 export default connect(null, mapDispatchToProps)(TaskScreen);

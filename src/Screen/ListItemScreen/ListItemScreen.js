@@ -35,7 +35,6 @@ const ListItemScreen = props => {
         {...item, count_tasks: taskCount.length, name: value},
         token,
       );
-      props.fetchLists(token);
       props.navigation.dispatch(CommonActions.goBack());
     }
   };
